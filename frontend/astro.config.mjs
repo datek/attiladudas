@@ -13,7 +13,9 @@ export default defineConfig({
   site: "https://attiladudas.com",
   integrations: [mdx(), sitemap(), tailwind(), vue({appEntrypoint: "src/vue"}), icon()],
   output: "server",
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: "compile",
+  }),
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeMathjax],
