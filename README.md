@@ -1,3 +1,3 @@
-[![codecov](https://codecov.io/gh/DAtek/attiladudas/graph/badge.svg?token=DD4YIGPFYE)](https://codecov.io/gh/DAtek/attiladudas)
+[![Coverage Status](https://coveralls.io/repos/github/datek/attiladudas/badge.svg?branch=main)](https://coveralls.io/github/datek/attiladudas?branch=main)
 
 # Source code of [attiladudas.com](https://attiladudas.com)
