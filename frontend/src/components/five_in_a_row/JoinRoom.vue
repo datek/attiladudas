@@ -29,7 +29,7 @@ type Data = {
   player: string
 }
 
-const data = reactive<Data>({ room: "", player: ""})
+const data = reactive<Data>({ room: "", player: "" })
 
 async function saveRoomName(event: Event) {
   event.preventDefault()
@@ -44,5 +44,4 @@ async function saveRoomName(event: Event) {
     handleError(String(e))
   }
 }
-
 </script>
