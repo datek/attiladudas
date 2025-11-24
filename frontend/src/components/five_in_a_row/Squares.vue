@@ -1,15 +1,10 @@
 <template>
   <div
     :style="`height: ${squareStyle.squareSize - 1}px;`"
-    v-for="y in fiveInARowState.game.squares.length"
+    v-for="y in tableSize"
     :key="y"
   >
-    <Square
-      :x="x - 1"
-      :y="y - 1"
-      v-for="x in fiveInARowState.game.squares[0].length"
-      :key="x"
-    />
+    <Square :x="x - 1" :y="y - 1" v-for="x in tableSize" :key="x" />
   </div>
 </template>
 
@@ -17,8 +12,7 @@
 import { squareStyle } from "@/components/five_in_a_row/dynamic_style"
 import Square from "@/components/five_in_a_row/Square.vue"
 import { onMounted } from "vue"
-import { fiveInARowState } from "./state"
-
+import { tableSize } from "./state"
 onMounted(() => {
   squareStyle.setResize()
   squareStyle.resize()

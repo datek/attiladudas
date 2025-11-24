@@ -1,3 +1,8 @@
+import {
+  notificationCollection,
+  NotificationItem,
+} from "@/components/five_in_a_row/notification/notification"
+
 export type FieldError = {
   location: string
   type: ErrorMappingKey
@@ -5,27 +10,21 @@ export type FieldError = {
   message: string
 }
 
-export function getErrorMessage(err: FieldError): string {
-  const errorStr = errorTypeToHumanReadable[err.type]
-  if (!errorStr) {
-    throw `Error string isn't defined for '${err.type}'`
+export function handleError(e: string) {
+  const msg = errorTypeToHumanReadable[e]
+  if (!msg) {
+    throw `Error handling not implemented for ${e}`
   }
 
-  return errorStr
+  notificationCollection.addItem(new NotificationItem("DANGER", msg))
 }
 
-export function getErrorsForField(
-  field: string,
-  errors: FieldError[],
-): FieldError[] {
-  return errors.filter((item) => item.location === field)
-}
-
-export const errorTypeToHumanReadable = {
-  PLAYER_WITH_THIS_NAME_ALREADY_JOINED: "Player with this name already joined",
-  ROOM_IS_FULL: "This room already has 2 players",
-  BOTH_PLAYERS_MUST_JOIN: "Both players must join before you can pick a side",
-  SIDE_ALREADY_TAKEN: "This side is already taken",
+export const errorTypeToHumanReadable: Record<string, string> = {
+  player_already_joined: "Player with this name already joined",
+  only_one_player_in_room: "Both players must join before you can pick a side",
+  side_not_picked: "Side needs to be picked before taking turns",
+  not_your_turn: "Not your turn",
+  game_ended: "Game has already ended",
 }
 
 export type ErrorMappingKey = keyof typeof errorTypeToHumanReadable

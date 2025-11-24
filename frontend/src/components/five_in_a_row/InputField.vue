@@ -20,7 +20,6 @@
           'focus:outline-none',
           'focus:ring',
           'focus:ring-opacity-50',
-          ...inputColorClasses,
         ])
       "
       :id="id"
@@ -30,23 +29,13 @@
       :value="modelValue"
       @input="onInput"
     />
-    <p
-      class="text-center text-sm text-danger lg:text-left mt-1"
-      v-for="error of errors_"
-      :key="`${error.location}:${error.type}`"
-    >
-      {{ getErrorMessage(error) }}
-    </p>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { getErrorMessage, type FieldError } from "@/utils/errors"
 import clsx from "clsx"
-import { computed } from "vue"
 type Props = {
   id: string
-  errors?: FieldError[]
   required?: boolean
   modelValue: string
   placeholder?: string
@@ -56,16 +45,6 @@ type Props = {
 const props = defineProps<Props>()
 
 const emit = defineEmits(["update:modelValue"])
-
-const errors_ = computed<FieldError[]>(() => {
-  return props.errors ? props.errors : []
-})
-
-const inputColorClasses = computed<string[]>(() => {
-  return errors_.value.length
-    ? ["focus:border-danger", "focus:ring-danger", "border-danger"]
-    : ["focus:border-primary", "focus:ring-primary", "border-gray-300"]
-})
 
 function onInput(ev: Event) {
   const target = ev.target as HTMLInputElement

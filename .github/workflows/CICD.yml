@@ -5,13 +5,14 @@ on:
     branches:
     - main
   pull_request:
-
+    branches:
+    - main
 
 jobs:
   CICD:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         lfs: true
 
@@ -26,19 +27,21 @@ jobs:
         project_name=$(just get-project-name ${branch})
         echo "project_name=${project_name}" >> $GITHUB_OUTPUT
 
-    - name: Checkout LFS objects
-      run: git lfs checkout
-
-    - uses: actions/setup-go@v4
+    - uses: erlef/setup-beam@v1
       with:
-        go-version: '>=1.24.0'
+        otp-version: 28.1.1
+        elixir-version: 1.19.3
 
-    - name: Test backend
+    - name: Test server
+      env:
+        MIX_ENV: test
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SERVER_LOG_LEVEL: warning
       shell: bash
-      working-directory: ./backend
+      working-directory: ./server
       run: |
-        go install gotest.tools/gotestsum@latest
-        just test-cover
+        mix deps.get
+        mix coveralls.github --subdir server/
 
     - uses: pnpm/action-setup@v4
       with:
@@ -58,6 +61,9 @@ jobs:
         access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+    - name: Checkout LFS objects
+      run: git lfs checkout
+
     - name: Deploy frontend
       shell: bash
       env:
@@ -69,10 +75,3 @@ jobs:
       run: |
         just download-images-from-s3
         just deploy-frontend
-
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
-      with:
-        fail_ci_if_error: true
-        files: backend/.coverage
-        token: ${{ secrets.CODECOV_TOKEN }}
