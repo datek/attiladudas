@@ -33,6 +33,8 @@ jobs:
     - name: Test server
       shell: bash
       working-directory: ./server
+      env:
+        SERVER_LOG_LEVEL: warning
       run: |
         mix deps.get
         mix test --cover
