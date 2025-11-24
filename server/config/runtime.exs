@@ -6,7 +6,8 @@ log_level = System.get_env("SERVER_LOG_LEVEL", "info")
 
 config :server,
   http_port: String.to_integer(http_port),
-  http_host: http_host
+  http_host:
+    http_host
     |> String.split(".")
     |> Enum.map(&String.to_integer/1)
     |> Enum.to_list()

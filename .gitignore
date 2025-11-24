@@ -4,9 +4,6 @@
 .env
 .dist/
 .tmp/
-backend/go.work.sum
 frontend/node_modules/
 frontend/.pnpm-store/
-deployment/inventories/
-backend/media
 .coverage

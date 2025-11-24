@@ -33,14 +33,15 @@ jobs:
         elixir-version: 1.19.3
 
     - name: Test server
+      env:
+        MIX_ENV: test
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SERVER_LOG_LEVEL: warning
       shell: bash
       working-directory: ./server
-      env:
-        SERVER_LOG_LEVEL: warning
       run: |
         mix deps.get
-        mix test --cover
-        mix test --cover --export-coverage server
+        mix coveralls.github
 
     - uses: pnpm/action-setup@v4
       with:
@@ -74,8 +75,3 @@ jobs:
       run: |
         just download-images-from-s3
         just deploy-frontend
-
-    - name: Upload coverage
-      uses: coverallsapp/github-action@v2
-      with:
-        file: server/cover/server.coverdata
