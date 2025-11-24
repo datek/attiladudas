@@ -21,14 +21,13 @@ get-project-name branch:
     set -eou pipefail
 
     case "{{ branch }}" in
-        dev)
-        echo "attiladudas-dev"
-        exit 0
-        ;;
         main)
         echo "attiladudas-prod"
         exit 0
         ;;
+        *)
+        echo "attiladudas-dev"
+        exit 0
     esac
 
     exit 1
