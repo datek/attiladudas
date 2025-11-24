@@ -6,14 +6,12 @@
         v-model="data.room"
         :required="true"
         placeholder="Enter room name"
-        :errors="getErrorsForField('room', data.errors)"
       />
       <InputField
         id="input_player_name"
         v-model="data.player"
         :required="true"
         placeholder="Enter your name"
-        :errors="getErrorsForField('player', data.errors)"
       />
       <Button type="submit">Join</Button>
     </div>
@@ -21,19 +19,17 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue"
-import type { WSError } from "@/utils/websocket"
-import { getErrorsForField, type FieldError } from "@/utils/errors"
-import { fiveInARowState } from "./state"
 import InputField from "@/components/five_in_a_row/InputField.vue"
+import { handleError } from "@/utils/errors"
+import { reactive } from "vue"
 import Button from "./Button.vue"
+import { fiveInARowState } from "./state"
 type Data = {
   room: string
   player: string
-  errors: FieldError[]
 }
 
-const data = reactive<Data>({ room: "", player: "", errors: [] })
+const data = reactive<Data>({ room: "", player: ""})
 
 async function saveRoomName(event: Event) {
   event.preventDefault()
@@ -49,8 +45,4 @@ async function saveRoomName(event: Event) {
   }
 }
 
-function handleError(e: string) {
-  const wsError = JSON.parse(e) as WSError
-  data.errors = wsError.errors
-}
 </script>

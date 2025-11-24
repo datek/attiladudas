@@ -1,5 +1,5 @@
 <template>
-  <button :style="buttonStyle" class="square" @click="move">
+  <button :style="buttonStyle" class="square" @click="takeTurn">
     <div :style="divStyle">
       {{ value }}
     </div>
@@ -7,13 +7,11 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from "vue"
 import { squareStyle } from "@/components/five_in_a_row/dynamic_style"
-import {
-  notificationCollection,
-  NotificationItem,
-} from "@/components/five_in_a_row/notification/notification"
+import { handleError } from "@/utils/errors"
+import { computed } from "vue"
 import { fiveInARowState } from "./state"
+import type { Side } from "@/utils/websocket"
 
 const EMPTY_VALUE = "A"
 
@@ -24,20 +22,10 @@ type Props = {
 
 const props = defineProps<Props>()
 
-type ValueMap = {
-  [key: number]: string
-}
-
-const valueMap: ValueMap = {
-  0: EMPTY_VALUE,
-  1: "X",
-  2: "O",
-}
-
-const value = computed<string>(() => {
+const value = computed<Side | "A">(() => {
   if (!fiveInARowState.game) return EMPTY_VALUE
-  const rawValue = fiveInARowState.game.squares[props.x][props.y]
-  return valueMap[rawValue]
+  const value = fiveInARowState.game.cells[`${props.x};${props.y}`]
+  return value || EMPTY_VALUE
 })
 
 const divStyle = computed<string>(() =>
@@ -52,10 +40,11 @@ const buttonStyle = computed(() => {
   ].join(";")
 })
 
-async function move() {
+async function takeTurn() {
   try {
-    await fiveInARowState.webSocketClient?.move({
-      position: [props.x, props.y],
+    await fiveInARowState.webSocketClient?.takeTurn({
+      x: props.x,
+      y: props.y,
     })
   } catch (e) {
     handleError(String(e))
@@ -69,12 +58,12 @@ const errorMessages: Record<string, string> = {
   NO_ROOM: "You need to pick a side first",
 }
 
-function handleError(error: string) {
-  const errorMsg = errorMessages[error]
-  if (!errorMsg) throw error
+// function handleError(error: string) {
+//   const errorMsg = errorMessages[error]
+//   if (!errorMsg) throw error
 
-  notificationCollection.addItem(new NotificationItem("DANGER", errorMsg))
-}
+//   notificationCollection.addItem(new NotificationItem("DANGER", errorMsg))
+// }
 </script>
 
 <style scoped>

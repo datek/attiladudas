@@ -14,7 +14,10 @@ export class WebSocketClient {
   protected _resolve?: (result: any) => void
   protected _reject?: (reason: any) => void
 
-  constructor(protected _setGame: (game: UpdateGameData) => void) {
+  constructor(
+    protected _setGame: (game: UpdateGameData) => void,
+    protected _setSide: (side: "X" | "O") => void,
+  ) {
     this._webSocket = new WebSocket(`${PUBLIC_DATEK_WS_URL}/ws/five-in-a-row/`)
     this._webSocket.onmessage = (ev) => this.handleMessage(ev)
     this._webSocket.onerror = (ev) => {
@@ -41,34 +44,33 @@ export class WebSocketClient {
 
       const data: Message = {
         type: "JOIN",
-        data: JSON.stringify(joinRoomData),
+        data: joinRoomData,
       }
-
       this._webSocket.send(JSON.stringify(data))
     })
   }
 
-  async pickSide(pickSideData: PickSideData) {
+  async pickSide(side: Side) {
     await new Promise<void>((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
       const data: Message = {
         type: "PICK_SIDE",
-        data: JSON.stringify(pickSideData),
+        data: side,
       }
 
       this._webSocket.send(JSON.stringify(data))
     })
   }
 
-  async move(moveData: MoveData) {
+  async takeTurn(moveData: MoveData) {
     await new Promise<void>((resolve, reject) => {
       this._resolve = resolve
       this._reject = reject
 
       const data: Message = {
-        type: "MOVE",
-        data: JSON.stringify(moveData),
+        type: "TAKE_TURN",
+        data: moveData,
       }
 
       this._webSocket.send(JSON.stringify(data))
@@ -78,31 +80,46 @@ export class WebSocketClient {
   protected handleMessage(ev: MessageEvent): void {
     const messageObj = JSON.parse(ev.data) as Message
 
-    if (messageObj.type == "OK" && this._resolve) {
+    if (messageObj.type === "OK" && this._resolve) {
       this._resolve(null)
       this.resetPromiseHandlers()
-      return
-    }
-
-    if (messageObj.type == "BAD_MESSAGE" && this._reject) {
+    } else if (messageObj.type === "BAD_MESSAGE" && this._reject) {
       this._reject(messageObj.data)
       this.resetPromiseHandlers()
-      return
-    }
-
-    if (messageObj.type == "UPDATE_GAME") {
-      const data = JSON.parse(messageObj.data) as UpdateGameData
+    } else if (messageObj.type === "GAME_UPDATE") {
+      const data = messageObj.data as UpdateGameData
       if (data.winner) {
         notificationCollection.addItem(
           new NotificationItem("INFO", `${data.winner} has won the game!`),
         )
       }
       this._setGame(data)
-      return
+    } else if (messageObj.type === "PICK_SIDE") {
+      const side = messageObj.data as Side
+      const opponentSide = side === "X" ? "O" : "X"
+      this._setSide(side)
+      notificationCollection.addItem(
+        new NotificationItem(
+          "INFO",
+          `Opponent has picked side ${opponentSide}`,
+        ),
+      )
+    } else if (messageObj.type === "JOIN") {
+      const data = messageObj.data as JoinRoomData
+      notificationCollection.addItem(
+        new NotificationItem("INFO", `${data.player} has joined the game`),
+      )
+    } else if (messageObj.type === "SEND_MESSAGE") {
+      notificationCollection.addItem(
+        new NotificationItem("INFO", messageObj.data as string),
+      )
+    } else if (messageObj.type === "LEAVE") {
+      notificationCollection.addItem(
+        new NotificationItem("INFO", `${messageObj.data} has left the game`),
+      )
+    } else {
+      console.error(`No handler for message ${messageObj}`)
     }
-
-    const handleNotification = notificationFactory[messageObj.type]
-    handleNotification(messageObj.data)
   }
 
   protected resetPromiseHandlers() {
@@ -111,33 +128,31 @@ export class WebSocketClient {
   }
 }
 
-export const messageType = {
-  JOIN: "JOIN",
-  PICK_SIDE: "PICK_SIDE",
-  UPDATE_GAME: "UPDATE_GAME",
-  OK: "OK",
-  BAD_MESSAGE: "BAD_MESSAGE",
-  SEND_MESSAGE: "SEND_MESSAGE",
-  MOVE: "MOVE",
-}
+export type Side = "X" | "O"
 
-export type MessageType = keyof typeof messageType
-
-export const Side = {
-  UNDEFINED: 1,
-  X_: 2,
-  O_: 3,
-}
+export type MessageType =
+  | "JOIN"
+  | "PICK_SIDE"
+  | "GAME_UPDATE"
+  | "OK"
+  | "SEND_MESSAGE"
+  | "BAD_MESSAGE"
+  | "TAKE_TURN"
+  | "LEAVE"
 
 export type Message = {
   type: MessageType
-  data: string
+  data: object | string
 }
 
 export type UpdateGameData = {
-  currentPlayer: string
-  squares: number[][]
+  next_player: string
+  cells: Cells
   winner: string
+}
+
+export type Cells = {
+  [key: string]: Side | null
 }
 
 export type JoinRoomData = {
@@ -150,32 +165,6 @@ export type PickSideData = {
 }
 
 export type MoveData = {
-  position: number[]
-}
-
-type NotificationFactory = {
-  [key: string]: (data: string) => void
-}
-
-const notificationFactory: NotificationFactory = {
-  [messageType.JOIN]: (data: string) => {
-    const decodedData = JSON.parse(data) as JoinRoomData
-    notificationCollection.addItem(
-      new NotificationItem("INFO", `${decodedData.player} has joined the game`),
-    )
-  },
-  [messageType.PICK_SIDE]: (data: string) => {
-    const decodedData = JSON.parse(data) as PickSideData
-    notificationCollection.addItem(
-      new NotificationItem(
-        "INFO",
-        `Opponent has picked side ${decodedData.side}`,
-      ),
-    )
-  },
-  [messageType.SEND_MESSAGE]: (data: string) => {
-    notificationCollection.addItem(new NotificationItem("INFO", data))
-  },
-  [messageType.OK]: () => {},
-  [messageType.BAD_MESSAGE]: () => {},
+  x: number
+  y: number
 }

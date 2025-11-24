@@ -1,41 +1,49 @@
-import type { UpdateGameData, WebSocketClient } from "@/utils/websocket"
+import type {
+  Side,
+  Cells,
+  UpdateGameData,
+  WebSocketClient,
+} from "@/utils/websocket"
 import { reactive } from "vue"
+
+export const tableSize = 11
 
 type FiveInARowState = {
   room: string
   player: string
+  side: Side | ""
   game: UpdateGameData
-  gameStarted: boolean
   webSocketClient?: WebSocketClient
 }
 
 export const fiveInARowState = reactive<FiveInARowState>({
   room: "",
   player: "",
+  side: "",
   game: {
-    currentPlayer: "",
-    squares: getInitialSquares(),
+    next_player: "",
+    cells: getInitialSquares(),
     winner: "",
   },
-  gameStarted: false,
 })
 
 export function resetFiveInARowState() {
   fiveInARowState.room = ""
   fiveInARowState.player = ""
   fiveInARowState.game = {
-    currentPlayer: "",
-    squares: getInitialSquares(),
+    next_player: "",
+    cells: getInitialSquares(),
     winner: "",
   }
-  fiveInARowState.gameStarted = false
   fiveInARowState.webSocketClient = undefined
 }
 
-function getInitialSquares(): number[][] {
-  const squares: number[][] = []
-  for (let i = 0; i < 11; i++) {
-    squares.push(new Array(11).fill(0))
+function getInitialSquares(): Cells {
+  const squares: Cells = {}
+  for (let x = 0; x < tableSize; x++) {
+    for (let y = 0; y < tableSize; y++) {
+      squares[`${x};${y}`] = null
+    }
   }
 
   return squares
