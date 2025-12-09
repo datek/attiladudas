@@ -1,6 +1,9 @@
 import type { FieldError } from "./errors"
 import { PUBLIC_DATEK_WS_URL } from "./config"
-import { notificationCollection, NotificationItem } from "@/components/ui/notification/notification"
+import {
+  notificationCollection,
+  NotificationItem,
+} from "@/components/ui/notification/notification"
 
 export type WSError = {
   errors: FieldError[]
