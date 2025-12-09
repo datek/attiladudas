@@ -36,11 +36,11 @@ jobs:
       env:
         MIX_ENV: test
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SERVER_LOG_LEVEL: warning
       shell: bash
       working-directory: ./server
       run: |
         mix deps.get
+        export $(cat .env.example | xargs)
         mix coveralls.github --subdir server/
 
     - uses: pnpm/action-setup@v4
