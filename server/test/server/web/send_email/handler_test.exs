@@ -2,6 +2,7 @@ defmodule Server.Web.SendEmail.HandlerTest do
   use ExUnit.Case, async: true
   import Plug.Test
   import Plug.Conn
+  import Swoosh.TestAssertions
 
   alias Server.Web.Router
 
@@ -29,14 +30,17 @@ defmodule Server.Web.SendEmail.HandlerTest do
 
   test "Sends email" do
     # given
+    subject = "Psychohistory"
+    sender = "Demerzel@trantor.gov"
+
     conn =
       conn(
         :post,
         @path,
         Jason.encode!(%{
           token: TurnstileVerifier.valid_token(),
-          sender: "Demerzel@trantor.gov",
-          subject: "Psychohistory",
+          sender: sender,
+          subject: subject,
           message: "You need to start ASAP"
         })
       )
@@ -48,6 +52,7 @@ defmodule Server.Web.SendEmail.HandlerTest do
     # then
     assert conn.state == :sent
     assert conn.status == 200
+    assert_email_sent(subject: "#{subject} - #{sender}")
   end
 
   test "Returns unprocessable entity when turnstile token is invalid" do

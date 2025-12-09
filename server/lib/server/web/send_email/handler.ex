@@ -66,7 +66,7 @@ defmodule Server.Web.SendEmail.Handler do
       Email.new()
       |> Email.to(Application.fetch_env!(:server, :email_recipient))
       |> Email.from("contact@attiladudas.com")
-      |> Email.subject(data.subject)
+      |> Email.subject("#{data.subject} - #{data.sender}")
       |> Email.text_body(data.message)
 
     {status, text} =
