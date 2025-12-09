@@ -86,6 +86,5 @@ defmodule Server.Web.SendEmail.Handler do
     conn
     |> Conn.put_resp_content_type("application/json")
     |> Conn.send_resp(status_code, content)
-    |> Conn.halt()
   end
 end

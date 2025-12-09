@@ -22,6 +22,10 @@ defmodule Server.Web.Router do
     Server.Web.SendEmail.Handler.handle_post(conn)
   end
 
+  match _ do
+    send_resp(conn, 404, "Not found")
+  end
+
   def child_spec(_) do
     Bandit.child_spec(
       plug: __MODULE__,
