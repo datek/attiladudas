@@ -3,11 +3,13 @@
     v-for="(item, index) in notificationCollection.items"
     :key="index"
     :class="
+      // @ts-ignore
       clsx([
+        'text-center',
         'notification',
         'top',
         'text-white',
-        'py-4',
+        'py-2',
         'my-3',
         'rounded-xl',
         ...item.classes,
@@ -20,8 +22,8 @@
 </template>
 
 <script lang="ts" setup>
-import { notificationCollection } from "@/components/five_in_a_row/notification/notification"
 import clsx from "clsx"
+import { notificationCollection } from "./notification"
 </script>
 
 <style scoped>

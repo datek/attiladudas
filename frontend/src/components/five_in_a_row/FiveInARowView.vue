@@ -13,11 +13,11 @@ import { onMounted, onUnmounted } from "vue"
 import GameBoard from "@/components/five_in_a_row/GameBoard.vue"
 import { fiveInARowState, resetFiveInARowState } from "./state"
 import { WebSocketClient, type UpdateGameData } from "@/utils/websocket"
-import Notifications from "./notification/Notifications.vue"
+import Notifications from "../ui/notification/Notifications.vue"
+
 const updateGame = (game: UpdateGameData) => {
   fiveInARowState.game = game
 }
-
 const setSide = (side: "X" | "O") => {
   fiveInARowState.side = side
 }

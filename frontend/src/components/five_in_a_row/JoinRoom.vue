@@ -1,17 +1,19 @@
 <template>
   <form @submit="saveRoomName">
     <div class="lg:flex lg:justify-center lg:content-center">
-      <InputField
+      <Input
         id="input_room_name"
         v-model="data.room"
         :required="true"
         placeholder="Enter room name"
+        class="mx-2 my-2 lg:my-0"
       />
-      <InputField
+      <Input
         id="input_player_name"
         v-model="data.player"
         :required="true"
         placeholder="Enter your name"
+        class="mx-2 my-2 lg:my-0"
       />
       <Button type="submit">Join</Button>
     </div>
@@ -19,11 +21,11 @@
 </template>
 
 <script lang="ts" setup>
-import InputField from "@/components/five_in_a_row/InputField.vue"
 import { handleError } from "@/utils/errors"
 import { reactive } from "vue"
-import Button from "./Button.vue"
+import Button from "../ui/Button.vue"
 import { fiveInARowState } from "./state"
+import Input from "../ui/Input.vue"
 type Data = {
   room: string
   player: string

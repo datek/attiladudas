@@ -28,11 +28,12 @@
     <p>{{ fiveInARowState.game.next_player }} is next</p>
   </div>
   <form class="flex justify-center m-3" @submit="sendMessage">
-    <InputField
+    <Input
       id="input_message"
       v-model="data.message"
       type="text"
       placeholder="Send a short message"
+      class="mx-2"
     />
     <Button type="submit">Send</Button>
   </form>
@@ -45,9 +46,9 @@ import Squares from "@/components/five_in_a_row/Squares.vue"
 import { handleError } from "@/utils/errors"
 import type { Side } from "@/utils/websocket"
 import { computed, onMounted, reactive } from "vue"
-import Button from "./Button.vue"
-import InputField from "./InputField.vue"
+import Button from "../ui/Button.vue"
 import { fiveInARowState } from "./state"
+import Input from "../ui/Input.vue"
 
 onMounted(() => {
   window.addEventListener("resize", () => {
@@ -55,8 +56,6 @@ onMounted(() => {
     squareStyle.resize()
   })
 })
-
-const TABLE_SIZE = 11
 
 type Data = {
   side?: Side
@@ -82,10 +81,6 @@ async function pickSide(ev: Event) {
 
 const sidePickingDisabled = computed<boolean>(() => {
   return fiveInARowState.side != ""
-})
-
-const messageColumnStyle = computed<string>(() => {
-  return `flex: none; width: ${TABLE_SIZE * (squareStyle.squareSize + 1) + 2}px;`
 })
 
 function sendMessage(ev: Event) {

@@ -27,10 +27,14 @@ defmodule Server.MixProject do
   defp deps do
     [
       {:bandit, "~> 1.8"},
+      {:cors_plug, "~> 3.0"},
       {:jason, "~> 1.4"},
       {:plug, "~> 1.18"},
+      {:req, "~> 0.5.16"},
+      {:swoosh, "~> 1.19"},
       {:websock_adapter, "~> 0.5.9"},
       {:websockex, "~> 0.4.3"},
+      {:zoi, "~> 0.12.0"},
       {:excoveralls, "~> 0.18.5", only: :test}
     ]
   end

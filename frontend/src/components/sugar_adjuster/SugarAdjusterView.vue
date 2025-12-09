@@ -15,30 +15,25 @@
         v-model="state.ingredientAmount"
         required
         :step="0.01"
-        class="mr-2 mt-3 col-span-2"
+        class="mr-2 mt-3 col-span-2 my-2 lg:my-0"
       />
       <Select
         id="select-unit"
         v-model="state.ingredientUnit"
         :options="['g', 'dkg', 'kg', 'oz', 'lb']"
         label="Unit"
-        class="mr-2 mt-3 col-span-1"
+        class="mr-2 mt-3 col-span-1 my-2 lg:my-0"
       />
       <Input
         id="input-name"
         label="Name"
         type="text"
         v-model="state.ingredientName"
-        class="mr-2 mt-3 col-span-4"
+        class="mr-2 mt-3 col-span-4 my-2 lg:my-0"
         required
       />
-      <div class="col-span-4 flex">
-        <button
-          type="submit"
-          class="lg:self-end mx-auto lg:mt-0 mt-3 bg-primary lg:my-0 h-10 px-2 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75"
-        >
-          Add ingredient
-        </button>
+      <div class="col-span-4 flex items-end">
+        <Button type="submit">Add ingredient</Button>
       </div>
     </form>
     <IngredientComponent
@@ -70,13 +65,14 @@
 import { computed, reactive } from "vue"
 import type { Props as IngredientProps } from "./Ingredient.vue"
 import IngredientComponent from "./Ingredient.vue"
-import Input from "./Input.vue"
+import Input from "../ui/Input.vue"
 import {
   adjustSugarToIngredients,
   type Ingredient,
   type Unit,
 } from "./adjustSugar"
-import Select from "./Select.vue"
+import Select from "../ui/Select.vue"
+import Button from "../ui/Button.vue"
 
 type IngredientMap = {
   [name: string]: IngredientProps

@@ -1,0 +1,36 @@
+---
+import MainLayout from "../layouts/MainLayout.astro"
+import ContactForm from "@/components/ContactForm.vue"
+---
+
+<MainLayout
+  title="Contact"
+  description="Contact"
+  class:list={["flex", "flex-grow", "justify-center", "lg:mt-14", "2xl:w-1/2"]}
+>
+  <link slot="head" rel="preconnect" href="https://challenges.cloudflare.com" />
+  <script
+    is:inline
+    slot="head"
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+    defer></script>
+  <div>
+    <h1 class="text-center">Contact</h1>
+    <ContactForm
+      onTurnstileSuccess="handleTurnstileSuccess"
+      formId="contact-form"
+      eventName="turnstileSuccess"
+      client:load
+    />
+  </div>
+</MainLayout>
+
+<style>
+  div.default-line-height p {
+    margin-bottom: 0.25em;
+  }
+
+  div.default-line-height {
+    margin-bottom: 1em;
+  }
+</style>
