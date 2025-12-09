@@ -1,7 +1,7 @@
 import {
   notificationCollection,
   NotificationItem,
-} from "@/components/five_in_a_row/notification/notification"
+} from "@/components/ui/notification/notification"
 
 export type FieldError = {
   location: string

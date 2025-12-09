@@ -36,11 +36,11 @@ jobs:
       env:
         MIX_ENV: test
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SERVER_LOG_LEVEL: warning
       shell: bash
       working-directory: ./server
       run: |
         mix deps.get
+        export $(cat .env.example | xargs)
         mix coveralls.github --subdir server/
 
     - uses: pnpm/action-setup@v4
@@ -71,6 +71,7 @@ jobs:
         CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         CLOUDFLARE_PROJECT_NAME: ${{ steps.get_project_name.outputs.project_name }}
         PUBLIC_DATEK_WS_URL: ${{ vars.PUBLIC_DATEK_WS_URL }}
+        PUBLIC_DATEK_URL: ${{ vars.PUBLIC_DATEK_URL }}
       working-directory: ./frontend
       run: |
         just download-images-from-s3

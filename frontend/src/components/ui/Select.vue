@@ -8,7 +8,7 @@
       {{ props.label }}
     </label>
     <select
-      class="shadow appearance-none border bg-white rounded-lg w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+      class="shadow appearance-none border bg-white rounded-lg w-full text-base py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
       v-model="model"
       v-bind="selectProps"
     >
@@ -19,7 +19,7 @@
 
 <script lang="ts" setup>
 import type { InputTypeHTMLAttribute } from "vue"
-import type { Unit } from "./adjustSugar"
+import type { Unit } from "../sugar_adjuster/adjustSugar"
 
 interface Props {
   id: string

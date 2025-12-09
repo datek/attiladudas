@@ -7,39 +7,32 @@
     >
       {{ props.label }}
     </label>
-    <input
-      class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-      v-model="model"
+    <textarea
+      class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-base text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       v-bind="inputProps"
+      v-model="model"
+      :placeholder="placeholder"
+      :rows="rows"
+      :cols="cols"
+      :minlength="minlength"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import type { InputTypeHTMLAttribute } from "vue"
-
 interface Props {
   id: string
-  type?: InputTypeHTMLAttribute
   label?: string
   class?: string
+  placeholder?: string
   step?: number
-  inputmode?:
-    | "none"
-    | "text"
-    | "tel"
-    | "url"
-    | "email"
-    | "numeric"
-    | "decimal"
-    | "search"
-  pattern?: string
+  rows?: number
+  cols?: number
   required?: boolean
-  min?: number
-  max?: number
+  minlength?: number
 }
 
-const model = defineModel()
+const model = defineModel<string>()
 const props = defineProps<Props>()
 const inputProps = { ...props, class: undefined }
 </script>
