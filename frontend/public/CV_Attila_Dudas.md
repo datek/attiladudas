@@ -1,19 +1,26 @@
 # Introduction
 
-Working as a fullstack developer since 2018, but mostly focused on backend.  
+My name is Attila Dudás, working as a fullstack developer since 2018, but mostly focused on backend.  
 
 I always put big effort in writing Clean Code and achieving 95%+ test coverage. I’ve learned a lot from my and other developers’ mistakes, so now I’m
 confident that I know how to build maintainable, stable, performant software.
+
+My favourite language is Elixir, although I don't have any "work experience" with it. Yet.
 
 # Used languages and technologies
 
 ## Languages
 - Python
+- Elixir
 - Go
 - Typescript
-- (Elixir, Rust - I'm learning these actively)
 
 ## Backend technologies
+- Plug
+- Zoi
+- Swoosh
+- Phoenix
+- Ecto
 - Fiber
 - Gin
 - Django
@@ -41,11 +48,11 @@ confident that I know how to build maintainable, stable, performant software.
 ## Frontend technologies
 - Astro
 - Vue
-- React
 - Tailwind CSS
 - Bootstrap
 - Bulma
 - Chromedriver
+- React (Worst work expereince so far; I hate it with all my heart.)
 
 ## Data science technologies
 - Jupyter notebook
@@ -55,6 +62,12 @@ confident that I know how to build maintainable, stable, performant software.
 - OpenCV
 
 # Work experience
+## Domonda - 2024.11 -
+Senior backend developer.
+
+Worked on the backend service and infrastructure using go, pulumi, PostgreSQL.
+Implemented a new document parsing service and integrated new features into the existing system.
+
 ## CarCutter - 2024.04 - 2024.09
 Senior backend / DevOps engineer.
 Worked on python web services and CI/CD pipelines.
@@ -87,4 +100,4 @@ Recommended which technologies should be used on the backend, designed HTTP and 
 
 # Links
 https://attiladudas.com/  
-https://github.com/DAtek
+https://github.com/datek
