@@ -7,6 +7,12 @@ defmodule Server.Application do
 
   @impl true
   def start(_type, _args) do
-    Server.System.start_link()
+    Supervisor.start_link(
+      [
+        Server.Web.FiveInARow.RoomManager,
+        Server.Web.Router
+      ],
+      strategy: :one_for_one
+    )
   end
 end

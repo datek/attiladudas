@@ -1,4 +1,7 @@
 defmodule Server.Web.FiveInARow.RoomManager do
+  @moduledoc """
+  The global room manager process. Responsible for providing rooms.
+  """
   alias __MODULE__, as: Self
   alias Server.Web.FiveInARow.Room
 

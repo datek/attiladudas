@@ -1,18 +1,16 @@
 defmodule Server.Web.Router do
   use Plug.Router
 
-  plug(Plug.Logger, log: :info)
+  plug Plug.Logger, log: :info
 
-  plug(
-    Plug.Parsers,
+  plug Plug.Parsers,
     parsers: [:json],
     json_decoder: Jason,
     pass: ["application/json"]
-  )
 
-  plug(CORSPlug)
-  plug(:match)
-  plug(:dispatch)
+  plug CORSPlug
+  plug :match
+  plug :dispatch
 
   get "/ws/five-in-a-row/" do
     Server.Web.FiveInARow.Handler.handle_get(conn)

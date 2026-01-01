@@ -1,4 +1,7 @@
 defmodule Server.Web.SendEmail.Handler do
+  @moduledoc """
+  Handler for sending emails
+  """
   require Logger
   alias Swoosh.Email
   alias Server.Web.SendEmail.BodySchema
@@ -54,7 +57,7 @@ defmodule Server.Web.SendEmail.Handler do
           {&respond/2, {422, serialized_errors}}
 
         {:error, error} ->
-          Logger.error("Token verification failed: #{error}", error: error)
+          Logger.error("Token verification failed: #{error}")
           {&respond/2, {500, "Internal server error"}}
       end
 
@@ -75,7 +78,7 @@ defmodule Server.Web.SendEmail.Handler do
           {200, "Ok"}
 
         {:error, error} ->
-          Logger.error("Could not send email: #{error}", error: error)
+          Logger.error("Could not send email: #{error}")
           {500, "Internal server error"}
       end
 
