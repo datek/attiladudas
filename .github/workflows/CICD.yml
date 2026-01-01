@@ -40,6 +40,7 @@ jobs:
       working-directory: ./server
       run: |
         mix deps.get
+        mix credo
         export $(cat .env.example | xargs)
         mix coveralls.github --subdir server/
 

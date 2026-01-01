@@ -40,7 +40,8 @@ defmodule Server.MixProject do
       {:websock_adapter, "~> 0.5.9"},
       {:websockex, "~> 0.4.3"},
       {:zoi, "~> 0.12.0"},
-      {:excoveralls, "~> 0.18.5", only: :test}
+      {:excoveralls, "~> 0.18.5", only: :test},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 end
