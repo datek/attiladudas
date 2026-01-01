@@ -1,8 +1,8 @@
-defmodule FiveInARow.GameTakeTurnTest do
+defmodule Server.FiveInARow.GameTakeTurnTest do
   use ExUnit.Case, async: true
 
-  alias FiveInARow.Game, as: Game
-  alias FiveInARow.Cells, as: Cells
+  alias Server.FiveInARow.Game, as: Game
+  alias Server.FiveInARow.Cells, as: Cells
 
   test "X takes turn" do
     # given

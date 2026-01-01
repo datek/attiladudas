@@ -1,10 +1,13 @@
 defmodule Server.Web.FiveInARow.Room do
+  @moduledoc """
+  Room process with two players. Coordinates the game.
+  """
   use GenServer
 
   require Logger
   alias __MODULE__, as: Self
   alias Server.Web.FiveInARow.Player
-  alias FiveInARow.Game
+  alias Server.FiveInARow.Game
 
   defstruct players: [],
             game: nil
@@ -92,18 +95,17 @@ defmodule Server.Web.FiveInARow.Room do
 
     new_player = %Player{name: name, pid: pid, side: side}
 
+    notify_current_state = fn ->
+      Process.sleep(10)
+      send(pid, {:pick_side, side})
+      Process.sleep(10)
+      next_player = if room.game.next_player == side, do: name, else: player.name
+      update_msg = {room.game.cells, next_player, room.game.winner}
+      send(pid, {:game_update, update_msg})
+    end
+
     if side != nil do
-      Process.spawn(
-        fn ->
-          Process.sleep(10)
-          send(pid, {:pick_side, side})
-          Process.sleep(10)
-          next_player = if room.game.next_player == side, do: name, else: player.name
-          update_msg = {room.game.cells, next_player, room.game.winner}
-          send(pid, {:game_update, update_msg})
-        end,
-        []
-      )
+      Process.spawn(notify_current_state, [:link])
     end
 
     Process.monitor(pid)

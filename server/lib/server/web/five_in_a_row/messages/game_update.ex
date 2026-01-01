@@ -1,4 +1,7 @@
 defmodule Server.Web.FiveInARow.Messages.GameUpdate do
+  @moduledoc """
+  Game update message
+  """
   defstruct cells: nil,
             next_player: "",
             winner: ""

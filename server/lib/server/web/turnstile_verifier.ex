@@ -1,4 +1,7 @@
 defmodule Server.Web.TurnstileVerifier do
+  @moduledoc """
+  Module for verifyting the cludflare turnstile token
+  """
   require Logger
   @req Req.new(url: "https://challenges.cloudflare.com/turnstile/v0/siteverify")
 

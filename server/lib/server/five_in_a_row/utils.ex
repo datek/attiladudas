@@ -1,4 +1,29 @@
-defmodule FiveInARow.WinCondition do
+defmodule Server.FiveInARow.Cells do
+  @moduledoc """
+  Helper module for working with cells
+  """
+  def new(size) when size > 0 do
+    range = 0..(size - 1)
+
+    for i <- range, j <- range, into: %{} do
+      {{i, j}, nil}
+    end
+  end
+
+  def set_cell(cells, position, value) when value in [:X, :O] do
+    %{cells | position => value}
+  end
+
+  def get_cell(cells, position) do
+    Map.get(cells, position)
+  end
+end
+
+defmodule Server.FiveInARow.WinCondition do
+  @moduledoc """
+  Helper module for checking the win condition
+  """
+  alias Server.FiveInARow.Cells
   alias __MODULE__, as: Self
 
   @next_direction_map %{
@@ -30,7 +55,7 @@ defmodule FiveInARow.WinCondition do
       cells: cells,
       last_taken_position: last_taken_position,
       last_checked_position: last_taken_position,
-      watched_value: FiveInARow.Cells.get_cell(cells, last_taken_position)
+      watched_value: Cells.get_cell(cells, last_taken_position)
     }
 
     check_next(state)
@@ -42,7 +67,7 @@ defmodule FiveInARow.WinCondition do
 
   defp check_next(state = %Self{direction: {i, j}, last_checked_position: {x, y}}) do
     current_position = {x + i, y + j}
-    cell_value = FiveInARow.Cells.get_cell(state.cells, current_position)
+    cell_value = Cells.get_cell(state.cells, current_position)
     found = cell_value == state.watched_value
 
     next_direction =

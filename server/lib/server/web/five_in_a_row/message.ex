@@ -1,4 +1,8 @@
 defmodule Server.Web.FiveInARow.Message do
+  @moduledoc """
+  Helper module for serializing and deserializing JSON messages for `Server.Web.FiveInARow.Handler`
+  """
+
   alias Server.Web.FiveInARow.Messages.GameUpdate
   alias Server.Web.FiveInARow.Messages.TakeTurn
   alias Server.Web.FiveInARow.Message
@@ -19,29 +23,31 @@ defmodule Server.Web.FiveInARow.Message do
 
   def parse(raw) do
     case Jason.decode(raw, keys: :atoms!) do
-      {:ok, %{type: type, data: data}} ->
-        case type do
-          type when type in ["BAD_MESSAGE", "LEAVE", "SEND_MESSAGE"] ->
-            %Message{type: type, data: data}
+      {:ok, %{} = res} -> dispatch_decoded(res)
+      _ -> :error
+    end
+  end
 
-          "PICK_SIDE" when data in ["X", "O"] ->
-            %Message{type: type, data: String.to_atom(data)}
+  defp dispatch_decoded(%{type: type, data: data}) do
+    case type do
+      type when type in ["BAD_MESSAGE", "LEAVE", "SEND_MESSAGE"] ->
+        %Message{type: type, data: data}
 
-          _ ->
-            module = Map.get(@type_map, type)
-
-            case module do
-              nil -> :error
-              _ -> %Message{type: type, data: struct(module, data)}
-            end
-        end
-
-      {:ok, %{type: type}} ->
-        %Message{type: type}
+      "PICK_SIDE" when data in ["X", "O"] ->
+        %Message{type: type, data: String.to_atom(data)}
 
       _ ->
-        :error
+        module = Map.get(@type_map, type)
+
+        case module do
+          nil -> :error
+          _ -> %Message{type: type, data: struct(module, data)}
+        end
     end
+  end
+
+  defp dispatch_decoded(%{type: type}) do
+    %Message{type: type}
   end
 
   def new_ok() do

@@ -1,4 +1,7 @@
 defmodule Server.Web.FiveInARow.Messages.Join do
+  @moduledoc """
+  Join message
+  """
   defstruct room: "",
             player: ""
 end

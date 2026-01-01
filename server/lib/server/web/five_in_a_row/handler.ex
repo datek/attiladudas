@@ -1,4 +1,7 @@
 defmodule Server.Web.FiveInARow.Handler do
+  @moduledoc """
+  Provides a websocket API for the five in a row game
+  """
   alias Server.Web.FiveInARow.Messages.TakeTurn
   alias Server.Web.FiveInARow.Handler, as: Self
   alias Server.Web.FiveInARow.RoomManager

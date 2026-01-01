@@ -2,7 +2,7 @@ defmodule Server.Web.FiveInARow.HandlerTest do
   use ExUnit.Case
   alias Server.Web.FiveInARow.HandlerTest, as: Fixture
   alias Server.Web.FiveInARow.Room
-  alias FiveInARow.Game
+  alias Server.FiveInARow.Game
   alias Server.Web.FiveInARow.RoomManager
   alias Server.Web.FiveInARow.Message
 
@@ -47,9 +47,7 @@ defmodule Server.Web.FiveInARow.HandlerTest do
       pid ->
         Process.monitor(pid)
 
-        if !Process.alive?(pid) do
-          true
-        else
+        if Process.alive?(pid) do
           receive do
             {:DOWN, _, :process, ^pid, :normal} -> true
           after
@@ -57,6 +55,8 @@ defmodule Server.Web.FiveInARow.HandlerTest do
               Process.exit(pid, :kill)
               false
           end
+        else
+          true
         end
     end
   end

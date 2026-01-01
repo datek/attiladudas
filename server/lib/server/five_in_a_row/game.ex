@@ -1,5 +1,8 @@
-defmodule FiveInARow.Game do
-  alias FiveInARow.Cells
+defmodule Server.FiveInARow.Game do
+  @moduledoc """
+  Pure domain logic for the five in a row game
+  """
+  alias Server.FiveInARow.Cells
   alias __MODULE__, as: Self
 
   defstruct cells: %{},
@@ -14,7 +17,10 @@ defmodule FiveInARow.Game do
 
   def take_turn(game = %Self{}, pos) when game.winner == nil do
     new_cells = Cells.set_cell(game.cells, pos, game.next_player)
-    winner = if FiveInARow.WinCondition.check?(new_cells, pos), do: game.next_player, else: nil
+
+    winner =
+      if Server.FiveInARow.WinCondition.check?(new_cells, pos), do: game.next_player, else: nil
+
     next_player = if game.next_player == :X, do: :O, else: :X
     %Self{game | cells: new_cells, winner: winner, next_player: next_player}
   end
