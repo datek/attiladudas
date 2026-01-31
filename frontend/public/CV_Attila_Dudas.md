@@ -5,7 +5,7 @@ My name is Attila Dudás, working as a fullstack developer since 2018, but mostl
 I always put big effort in writing Clean Code and achieving 95%+ test coverage. I’ve learned a lot from my and other developers’ mistakes, so now I’m
 confident that I know how to build maintainable, stable, performant software.
 
-My favourite language is Elixir, although I don't have any "work experience" with it. Yet.
+My favourite programming language is Elixir, although I don't have any "work experience" with it. Yet.
 
 # Used languages and technologies
 
@@ -62,17 +62,17 @@ My favourite language is Elixir, although I don't have any "work experience" wit
 - OpenCV
 
 # Work experience
-## Domonda - 2024.11 -
+## Domonda, remote - 2024.11 -
 Senior backend developer.
 
 Worked on the backend service and infrastructure using go, pulumi, PostgreSQL.
 Implemented a new document parsing service and integrated new features into the existing system.
 
-## CarCutter - 2024.04 - 2024.09
+## CarCutter, remote - 2024.04 - 2024.09
 Senior backend / DevOps engineer.
 Worked on python web services and CI/CD pipelines.
 
-## Expend: 2021.04 - 2024.04
+## Expend, remote: 2021.04 - 2024.04
 Senior backend engineer, worked on an expense
 management system.  
 
@@ -83,11 +83,15 @@ Upgraded the whole system from python3.6 to python3.9.
 Redesigned the test suite for backend, which improved the code coverage a lot.
 Designed a smart recept / invoice solver which accurately calculates the VAT for every receipt and invoice.
 
-## Deverto Systems Ldt.: 2019.12 – 2021.04
+## Deverto Systems Ldt., Budapest: 2019.12 – 2021.04
 Python and React fullstack developer.  
 
 Worked on a zoom-like meeting platform.  
 Recommended which technologies should be used on the backend, designed HTTP and Websocket backend services and databases.
+
+## p4it, Győr: 2018.01 - 2019.07
+Worked on various web projects using php and the yii2 framework.
+
 
 # Education
 ## Mechatronics Engineering BSc. - Széchenyi István University, Győr - Hungary, 2014 - 2018
