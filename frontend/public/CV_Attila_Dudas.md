@@ -52,7 +52,7 @@ My favourite programming language is Elixir, although I don't have any "work exp
 - Bootstrap
 - Bulma
 - Chromedriver
-- React (Worst work expereince so far; I hate it with all my heart.)
+- React
 
 ## Data science technologies
 - Jupyter notebook
