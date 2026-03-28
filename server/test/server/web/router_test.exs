@@ -1,7 +1,6 @@
 defmodule Server.Web.RouterTest do
   use ExUnit.Case, async: true
   import Plug.Test
-  import Plug.Conn
 
   alias Server.Web.Router
 

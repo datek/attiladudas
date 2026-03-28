@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-while read -r filename < <(inotifywait --format "%w%f" -e modify -e create -e delete -r ./lib ./test); do
+while read -r filename < <(inotifywait --format "%w%f" -e modify -e create -e delete -r ./lib ./test ./mix.exs); do
     echo "$filename has changed"
     mix format "$filename" || true
     mix compile || true
